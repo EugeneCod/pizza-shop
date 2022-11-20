@@ -1,0 +1,11 @@
+Для Redux
+
+Установить RTK
+npm i @reduxjs/toolkit
+
+Установить react-redux
+npm i react-redux
+
+В index.js импортировать из react-redux компонент Provider передать в него store, как пропс и обернуть в него App
+
+#6 1:28:21

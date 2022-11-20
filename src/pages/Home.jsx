@@ -10,14 +10,18 @@ function Home({ pizzas }) {
         />
         <SortPopup
           onClick={(name) => console.log(name)}
-          items={['популярности', 'цене', 'алфавиту']}
+          items={[
+            { name: 'популярности', type: 'popular' },
+            { name: 'цене', type: 'price' },
+            { name: 'алфавиту', type: 'alfabet' },
+          ]}
         />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {
-          pizzas.map(pizza => <PizzaBlock key={pizza.id} {...pizza} />)
-        }
+        {pizzas.map((pizza) => (
+          <PizzaBlock key={pizza.id} {...pizza} />
+        ))}
       </div>
     </div>
   );
