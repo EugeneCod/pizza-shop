@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const filters = createSlice({
+const filtersReducer = createSlice({
   name: 'filters',
   initialState: {
     categoty: 0,
     sortBy: 'popular',
   },
   reducers: {
-    setCategoty(state, action) {
+    setCategory(state, action) {
       state.categoty = action.payload;
     },
     setSortBy(state, action) {
@@ -16,5 +16,5 @@ const filters = createSlice({
   },
 });
 
-export default filters.reducer;
-export const { setCategoty, setSortBy } = filters.actions;
+export default filtersReducer.reducer;
+export const { setCategory, setSortBy } = filtersReducer.actions;

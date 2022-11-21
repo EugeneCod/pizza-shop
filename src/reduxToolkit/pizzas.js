@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const pizzas = createSlice({
+const pizzasReducer = createSlice({
   name: 'pizzas',
   initialState: {
     items: [],
@@ -14,5 +14,5 @@ const pizzas = createSlice({
   },
 });
 
-export default pizzas.reducer;
-export const { setCategoty, setSortBy } = pizzas.actions;
+export default pizzasReducer.reducer;
+export const { setPizzas } = pizzasReducer.actions;

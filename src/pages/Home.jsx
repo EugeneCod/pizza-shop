@@ -1,11 +1,19 @@
+import { useSelector } from 'react-redux';
 import { Categories, PizzaBlock, SortPopup } from '../components';
 
-function Home({ pizzas }) {
+function Home() {
+  const { pizzas } = useSelector(({ pizzas, filters }) => {
+    return {
+      pizzas: pizzas.items,
+      sortBy: filters.sortBy,
+    }
+  });
+
   return (
     <div className="container">
       <div className="content__top">
         <Categories
-          onClick={(name) => console.log(name)}
+          onClickItem={(index) => console.log(index)}
           items={['Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые']}
         />
         <SortPopup
@@ -19,7 +27,7 @@ function Home({ pizzas }) {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {pizzas.map((pizza) => (
+        {pizzas && pizzas.map((pizza) => (
           <PizzaBlock key={pizza.id} {...pizza} />
         ))}
       </div>
