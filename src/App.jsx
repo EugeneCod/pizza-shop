@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { Header } from './components';
 import { Home, Cart } from './pages';
@@ -11,8 +11,9 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.get('http://localhost:3000/db.json').then(({ data }) => {
-      dispatch(setPizzas(data.pizzas));
+    axios.get('http://localhost:3001/pizzas').then(({ data }) => {
+      console.log(data);
+      dispatch(setPizzas(data));
     });
 
     // стандартный метод
