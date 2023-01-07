@@ -4,7 +4,7 @@ const SortPopup = memo(function SortPopup({ items, onClick }) {
   const [visiblePopup, setVisiblePopup] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
   const sortRef = useRef();
-  const avtiveLabel = items[activeItem].name;
+  const activeLabel = items[activeItem].name;
 
   useEffect(() => {
     document.body.addEventListener('click', handleOutsideCLick);
@@ -44,7 +44,7 @@ const SortPopup = memo(function SortPopup({ items, onClick }) {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={toggleVisiblePopup}>{avtiveLabel}</span>
+        <span onClick={toggleVisiblePopup}>{activeLabel}</span>
       </div>
       {visiblePopup && (
         <div className="sort__popup">

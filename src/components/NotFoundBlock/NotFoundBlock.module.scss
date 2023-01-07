@@ -1,0 +1,22 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 30vh;
+
+  .errorCode {
+    font-size: 100px;
+    font-weight: 800;
+    text-align: center;
+    text-shadow: 2px 2px 2px black;
+  }
+
+  .errorDescription {
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+    
+    color: #7b7b7b;
+  }
+}

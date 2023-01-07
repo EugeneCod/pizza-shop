@@ -9,6 +9,7 @@ function PizzaBlock(props) {
 
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(sizes[0]);
+  const [pizzasCount, setPizzasCount] = useState(0);
 
   function handleSelectType(index) {
     setActiveType(index);
@@ -16,6 +17,11 @@ function PizzaBlock(props) {
 
   function handleSelectSize(size) {
     setActiveSize(size);
+  }
+
+  function handleAddClickButton() {
+    setPizzasCount((prev) => prev+= 1)
+    console.log(pizzasCount);
   }
 
   return (
@@ -54,7 +60,7 @@ function PizzaBlock(props) {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <div className="button button--outline button--add">
+        <button onClick={handleAddClickButton} className="button button--outline button--add">
           <svg
             width="12"
             height="12"
@@ -67,8 +73,8 @@ function PizzaBlock(props) {
             />
           </svg>
           <span>Добавить</span>
-          <i>2</i>
-        </div>
+          <i>{pizzasCount}</i>
+        </button>
       </div>
     </div>
   );

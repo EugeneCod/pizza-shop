@@ -26,15 +26,21 @@ body {
   }
 
   &__items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 280px);
+    justify-content: center;
+    gap: 60px 20px;
   }
 
   &__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @media(max-width: 1920px) {
+      flex-direction: column;
+      gap: 20px 0;
+      
+    }
   }
 }
 
