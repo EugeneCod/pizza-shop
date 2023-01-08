@@ -1,0 +1,45 @@
+.root {
+  position: relative;
+}
+
+.foundIcon {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: 8px;
+  top: 11px;
+}
+
+.clearIcon {
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  right: 9px;
+  top: 13px;
+  transition: all 0.2s ease;
+  opacity: 0.5;
+  cursor: pointer;
+  z-index: 2;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 1;
+    transform: scale(0.9);
+  }
+}
+
+.input {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 12px 35px 12px 40px;
+  width: 300px;
+  border-radius: 12px;
+  font-size: 15px;
+  transition: border 0.2s ease;
+
+  &:focus {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+}

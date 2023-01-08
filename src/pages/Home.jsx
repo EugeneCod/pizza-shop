@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Categories, PizzaBlock, SortPopup, Skeleton } from '../components';
+import { Categories, PizzaBlock, SortPopup, Skeleton, Pagination } from '../components';
 import { setCategory } from '../reduxToolkit/filters';
 import { setPizzas } from '../reduxToolkit/pizzas';
+import { AppContext } from '../context';
 
 const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
 const sortItems = [
@@ -17,29 +18,46 @@ const sortItems = [
 ];
 
 function Home() {
+  const { searchValue } = useContext(AppContext);
   const pizzas = useSelector(({ pizzas }) => pizzas.items);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedSorting, setSelectedSorting] = useState(sortItems[0]);
   const [selectedCategory, setSelectedCategory] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const skeletons = [...new Array(9)].map((_, index) => <Skeleton key={index} />);
+  const renderedPizzas = pizzas && pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
+
+  // поиск по локальному массиву
+  // const renderedPizzas = pizzas && pizzas.filter(obj => {
+  //   if (obj.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())) {return true}
+  //   return false;
+  // }).map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
 
   useEffect(() => {
     const order = selectedSorting.sortProperty.includes('-') ? 'asc' : 'desc';
     const sortBy = selectedSorting.sortProperty.replace('-', '');
     const category = selectedCategory > 0 ? `category=${selectedCategory}` : '';
+    // Mokapi может предоставить некорректные данные при использовании поиска совмещенного с сортировкой. 
+    // Приоритет отдается сортировке, поэтому могут быть получены данные, не соответствующие строке, введенной в форму поиска.
+    const search = searchValue ? `&search=${searchValue}` : '';
 
-    window.scrollTo(0, 0);
     setIsLoading(true);
     axios
       .get(
-        `https://63b939b56f4d5660c6e81059.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}`,
+        `https://63b939b56f4d5660c6e81059.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
       )
       .then(({ data }) => {
         dispatch(setPizzas(data));
       })
       .catch((error) => console.log(error))
       .finally(() => setIsLoading(false));
-  }, [selectedCategory, selectedSorting]);
+  }, [selectedCategory, selectedSorting, searchValue, currentPage]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
 
   const handleSelectCategory = (index) => {
     setSelectedCategory(index);
@@ -49,6 +67,11 @@ function Home() {
   const handleSelectSorting = (selectedSort) => {
     setSelectedSorting(selectedSort);
   };
+
+  const handleSwitchPagination = (pageNumber) => {
+    console.log(pageNumber);
+    setCurrentPage(pageNumber);
+  }
 
   return (
     <div className="container">
@@ -67,9 +90,10 @@ function Home() {
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {isLoading
-          ? [...new Array(9)].map((_, index) => <Skeleton key={index} />)
-          : pizzas && pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)}
+          ? skeletons
+          : renderedPizzas}
       </div>
+      <Pagination onPageChange={handleSwitchPagination}/>
     </div>
   );
 }
