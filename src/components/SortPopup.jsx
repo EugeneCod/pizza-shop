@@ -1,10 +1,9 @@
 import { memo, useEffect, useRef, useState } from 'react';
 
-const SortPopup = memo(function SortPopup({ items, onClick }) {
+const SortPopup = memo(function SortPopup(props) {
+  const { items, onClickItem, selectedItem } = props;
   const [visiblePopup, setVisiblePopup] = useState(false);
-  const [activeItem, setActiveItem] = useState(0);
   const sortRef = useRef();
-  const activeLabel = items[activeItem].name;
 
   useEffect(() => {
     document.body.addEventListener('click', handleOutsideCLick);
@@ -23,9 +22,9 @@ const SortPopup = memo(function SortPopup({ items, onClick }) {
     }
   }
 
-  function handleSelectItem(index) {
-    setActiveItem(index);
+  function handleClickItem(selectedSort) {
     setVisiblePopup(false);
+    onClickItem(selectedSort);
   }
 
   return (
@@ -44,7 +43,7 @@ const SortPopup = memo(function SortPopup({ items, onClick }) {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={toggleVisiblePopup}>{activeLabel}</span>
+        <span onClick={toggleVisiblePopup}>{selectedItem.name}</span>
       </div>
       {visiblePopup && (
         <div className="sort__popup">
@@ -52,8 +51,8 @@ const SortPopup = memo(function SortPopup({ items, onClick }) {
             {items &&
               items.map((obj, index) => (
                 <li
-                  className={activeItem === index ? 'active' : ''}
-                  onClick={() => handleSelectItem(index)}
+                  className={selectedItem.sortProperty  === obj.sortProperty ? 'active' : ''}
+                  onClick={() => handleClickItem(obj)}
                   key={`${obj.type}_${index}`}>
                   {obj.name}
                 </li>
