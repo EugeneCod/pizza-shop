@@ -1,9 +1,9 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import filtersReducer from './filters';
-import pizzasReducer from './pizzas';
+import filtersReducer from './slices/filterSlice';
+import pizzasReducer from './slices/pizzasSlice';
 
 const rootReducer = combineReducers({
-  filters: filtersReducer,
+  filter: filtersReducer,
   pizzas: pizzasReducer,
 });
 
@@ -11,4 +11,4 @@ export const store = configureStore({
   reducer: rootReducer,
 });
 
-window.store = store;
+window.Storage = store;

@@ -1,9 +1,22 @@
 import { memo, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { setSort } from '../reduxToolkit/slices/filterSlice';
 
 const SortPopup = memo(function SortPopup(props) {
-  const { items, onClickItem, selectedItem } = props;
+  const dispatch = useDispatch();
+  const selectedSorting = useSelector(({ filter }) => filter.sort);
   const [visiblePopup, setVisiblePopup] = useState(false);
   const sortRef = useRef();
+
+  const sortItems = [
+    { name: 'популярности (убыв.)', sortProperty: 'rating' },
+    { name: 'популярности (возр.)', sortProperty: '-rating' },
+    { name: 'цене (убыв.)', sortProperty: 'price' },
+    { name: 'цене (возр.)', sortProperty: '-price' },
+    { name: 'алфавиту (убыв.)', sortProperty: 'title' },
+    { name: 'алфавиту (возр.)', sortProperty: '-title' },
+  ];
 
   useEffect(() => {
     document.body.addEventListener('click', handleOutsideCLick);
@@ -22,10 +35,11 @@ const SortPopup = memo(function SortPopup(props) {
     }
   }
 
-  function handleClickItem(selectedSort) {
+  const handleSelectSorting = (selectedSort) => {
+    console.log('click@');
     setVisiblePopup(false);
-    onClickItem(selectedSort);
-  }
+    dispatch(setSort(selectedSort))
+  };
 
   return (
     <div ref={sortRef} className="sort">
@@ -43,16 +57,16 @@ const SortPopup = memo(function SortPopup(props) {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={toggleVisiblePopup}>{selectedItem.name}</span>
+        <span onClick={toggleVisiblePopup}>{selectedSorting.name}</span>
       </div>
       {visiblePopup && (
         <div className="sort__popup">
           <ul>
-            {items &&
-              items.map((obj, index) => (
+            {sortItems &&
+              sortItems.map((obj, index) => (
                 <li
-                  className={selectedItem.sortProperty  === obj.sortProperty ? 'active' : ''}
-                  onClick={() => handleClickItem(obj)}
+                  className={selectedSorting.sortProperty  === obj.sortProperty ? 'active' : ''}
+                  onClick={() => handleSelectSorting(obj)}
                   key={`${obj.type}_${index}`}>
                   {obj.name}
                 </li>

@@ -1,37 +1,5 @@
-Для Redux
-
-Установить RTK
-npm i @reduxjs/toolkit
-
-Установить react-redux
-npm i react-redux
-
-В index.js импортировать из react-redux компонент Provider передать в него store, как пропс и обернуть в него App
-
-доступ к state redux хранилища осуществляется с помощью хука useSelector из react-redux
- // useSelector параметорм принимает колбэк с параметорм state
-  // state - объект, содержащий состояние приложения
-  // const { pizzas } = useSelector((state) => {
-  //   return {
-  //     pizzas: state.pizzas.items,
-  //     sortBy: state.filters.sortBy,
-  //   }
-  // });
-
-вызов action осуществляется с помощью хука useDispatch из react-redux
-и экспорта необходимой функции
-  // import { useDispatch } from 'react-redux';
-  // import { setPizzas } from './reduxToolkit/pizzas';
-  // const dispatch = useDispatch();
-  // dispatch(setPizzas(data));
-
-Фейковый сервер для тестирования запросов из фронта json-server
-Команда для запуска при наличии соответствующего файла в дир. public
-npx json-server --watch public/db.json
-
-Кто использует npm и имеет проблемы с запуском приложения вместе c json-server, делайте следующее:
-1) в консоли npm i -D concurrently;
-2) в package.json внутри "scripts" внесите "dev": "concurrently \"npm start\" \"npm run server\"";
-3) в консоли npm run dev.
-
-#8 10:15
+По Redux
+store - общее хранилище
+slice - отдел хранилища с данными и логикой по их изменению (авторизация, корзина, фильтрация)
+reducer - общая функция, которая отвечает за изменение стейта slice
+action - метод по изменению стейта. Содержится в slice.actions. Actions - объект

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const pizzasReducer = createSlice({
+const pizzasSlice = createSlice({
   name: 'pizzas',
   initialState: {
     items: [],
@@ -14,5 +14,5 @@ const pizzasReducer = createSlice({
   },
 });
 
-export default pizzasReducer.reducer;
-export const { setPizzas } = pizzasReducer.actions;
+export default pizzasSlice.reducer;
+export const { setPizzas } = pizzasSlice.actions;
