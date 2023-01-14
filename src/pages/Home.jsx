@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Categories, PizzaBlock, SortPopup, Skeleton, Pagination } from '../components';
-import { setCategoryId } from '../reduxToolkit/slices/filterSlice';
+import { setCategoryId, setCurrentPage } from '../reduxToolkit/slices/filterSlice';
 import { setPizzas } from '../reduxToolkit/slices/pizzasSlice';
 import { AppContext } from '../context';
 
@@ -11,12 +11,12 @@ const categories = ['Все', 'Мясные', 'Вегетарианские', '�
 
 function Home() {
   const { searchValue } = useContext(AppContext);
-  const { categoryId, sort } = useSelector(state => state.filter);
+  const { categoryId, sort, currentPage } = useSelector(state => state.filter);
   const pizzas = useSelector(({ pizzas }) => pizzas.items);
-  
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
+  console.log(currentPage);
 
   const skeletons = [...new Array(9)].map((_, index) => <Skeleton key={index} />);
   const renderedPizzas = pizzas && pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
@@ -57,7 +57,7 @@ function Home() {
 
   const handleSwitchPagination = (pageNumber) => {
     console.log(pageNumber);
-    setCurrentPage(pageNumber);
+    dispatch(setCurrentPage(pageNumber));
   };
 
   return (
@@ -72,7 +72,7 @@ function Home() {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? skeletons : renderedPizzas}</div>
-      <Pagination onPageChange={handleSwitchPagination} />
+      <Pagination currentPage={currentPage} onPageChange={handleSwitchPagination} />
     </div>
   );
 }
