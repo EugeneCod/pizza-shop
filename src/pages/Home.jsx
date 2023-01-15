@@ -1,33 +1,39 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import qs from 'qs';
 
 import { Categories, PizzaBlock, SortPopup, Skeleton, Pagination } from '../components';
-import { setCategoryId, setCurrentPage } from '../reduxToolkit/slices/filterSlice';
+import { sortItems } from '../components/SortPopup';
+import { setCategoryId, setCurrentPage, setFilters } from '../reduxToolkit/slices/filterSlice';
 import { setPizzas } from '../reduxToolkit/slices/pizzasSlice';
 import { AppContext } from '../context';
 
 const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
 
 function Home() {
-  const { searchValue } = useContext(AppContext);
-  const { categoryId, sort, currentPage } = useSelector(state => state.filter);
-  const pizzas = useSelector(({ pizzas }) => pizzas.items);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isSearch = useRef(false);
+  const isMounted = useRef(false);
+
   const [isLoading, setIsLoading] = useState(false);
-  // const [currentPage, setCurrentPage] = useState(1);
-  console.log(currentPage);
+  const { searchValue } = useContext(AppContext);
+  const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
+  const pizzas = useSelector(({ pizzas }) => pizzas.items);
+  
 
-  const skeletons = [...new Array(9)].map((_, index) => <Skeleton key={index} />);
-  const renderedPizzas = pizzas && pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
+  const handleSelectCategory = (index) => {
+    dispatch(setCategoryId(index));
+  };
 
-  // поиск по локальному массиву
-  // const renderedPizzas = pizzas && pizzas.filter(obj => {
-  //   if (obj.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())) {return true}
-  //   return false;
-  // }).map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
+  const handleSwitchPagination = (pageNumber) => {
+    console.log(pageNumber);
+    dispatch(setCurrentPage(pageNumber));
+  };
 
-  useEffect(() => {
+  const fetchPizzas = () => {
     const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
     const sortBy = sort.sortProperty.replace('-', '');
     const category = categoryId > 0 ? `category=${categoryId}` : '';
@@ -45,20 +51,48 @@ function Home() {
       })
       .catch((error) => console.log(error))
       .finally(() => setIsLoading(false));
-  }, [categoryId, sort.sortProperty, searchValue, currentPage]);
+  };
+
+  // поиск по локальному массиву
+  // const renderedPizzas = pizzas && pizzas.filter(obj => {
+  //   if (obj.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())) {return true}
+  //   return false;
+  // }).map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
+
+  // Если был первый рендер, то проверяются URL-параметры и сохраняются в redux
+  useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+      const sort = sortItems.find((obj) => obj.sortProperty === params.sortProperty);
+      dispatch(setFilters({ ...params, sort }));
+      isSearch.current = true;
+    }
+  }, []);
+
+  // Если происходит уже не первый рендер, то параметры фильтрации вшиваются в URL
+  useEffect(() => {
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        sortProperty: sort.sortProperty,
+        categoryId,
+        currentPage,
+      });
+      navigate(`?${queryString}`);
+    }
+    isMounted.current = true;
+  }, [categoryId, sort.sortProperty, currentPage]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+    if (!isSearch.current || isMounted.current) {
+      fetchPizzas();
+    }
 
-  const handleSelectCategory = (index) => {
-    dispatch(setCategoryId(index));
-  };
+    isSearch.current = false;
+  }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  const handleSwitchPagination = (pageNumber) => {
-    console.log(pageNumber);
-    dispatch(setCurrentPage(pageNumber));
-  };
+  const renderedPizzas = pizzas && pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
+  const skeletons = [...new Array(9)].map((_, index) => <Skeleton key={index} />);
 
   return (
     <div className="container">

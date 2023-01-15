@@ -3,20 +3,20 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { setSort } from '../reduxToolkit/slices/filterSlice';
 
+export const sortItems = [
+  { name: 'популярности (убыв.)', sortProperty: 'rating' },
+  { name: 'популярности (возр.)', sortProperty: '-rating' },
+  { name: 'цене (убыв.)', sortProperty: 'price' },
+  { name: 'цене (возр.)', sortProperty: '-price' },
+  { name: 'алфавиту (убыв.)', sortProperty: 'title' },
+  { name: 'алфавиту (возр.)', sortProperty: '-title' },
+];
+
 const SortPopup = memo(function SortPopup(props) {
   const dispatch = useDispatch();
   const selectedSorting = useSelector(({ filter }) => filter.sort);
   const [visiblePopup, setVisiblePopup] = useState(false);
   const sortRef = useRef();
-
-  const sortItems = [
-    { name: 'популярности (убыв.)', sortProperty: 'rating' },
-    { name: 'популярности (возр.)', sortProperty: '-rating' },
-    { name: 'цене (убыв.)', sortProperty: 'price' },
-    { name: 'цене (возр.)', sortProperty: '-price' },
-    { name: 'алфавиту (убыв.)', sortProperty: 'title' },
-    { name: 'алфавиту (возр.)', sortProperty: '-title' },
-  ];
 
   useEffect(() => {
     document.body.addEventListener('click', handleOutsideCLick);
