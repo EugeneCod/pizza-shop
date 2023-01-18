@@ -8,12 +8,14 @@ import { addItem } from '../../reduxToolkit/slices/cartSlice';
 function PizzaBlock(props) {
   const { id, title, price, imageUrl, types, sizes } = props;
   const dispatch = useDispatch();
+  const cartItem = useSelector((state) => state.cart.items.find((obj) => obj.id === id));
+  const addedCount = cartItem?.count || 0;
   const availableTypes = ['тонкое', 'традиционное'];
   const availableSizes = [26, 30, 40];
 
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(sizes[0]);
-  const [pizzasCount, setPizzasCount] = useState(0);
+  // const [pizzasCount, setPizzasCount] = useState(0);
 
   function handleSelectType(index) {
     setActiveType(index);
@@ -24,7 +26,7 @@ function PizzaBlock(props) {
   }
 
   function handleAddClickButton() {
-    setPizzasCount((prev) => (prev += 1));
+    // setPizzasCount((prev) => (prev += 1));
     const item = {
       id,
       title,
@@ -33,7 +35,7 @@ function PizzaBlock(props) {
       type: availableTypes[activeType],
       size: activeSize,
     };
-    dispatch(addItem(item))
+    dispatch(addItem(item));
   }
 
   return (
@@ -85,7 +87,8 @@ function PizzaBlock(props) {
             />
           </svg>
           <span>Добавить</span>
-          <i>{pizzasCount}</i>
+          {}
+          {addedCount > 0 && <i>{addedCount}</i>}
         </button>
       </div>
     </div>

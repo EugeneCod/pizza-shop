@@ -1,7 +1,9 @@
 @import '../variables';
 
 .button {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: $orange;
   border-radius: 30px;
   padding: 10px 20px;
@@ -114,12 +116,12 @@
 
     i {
       display: inline-block;
-      border-radius: 30px;
+      border-radius: 50%;
       background-color: $orange;
       color: #fff;
       font-weight: 600;
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       font-style: normal;
       font-size: 13px;
       line-height: 22px;
