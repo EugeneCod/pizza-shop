@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { addItem } from '../../reduxToolkit/slices/cartSlice';
+import { addItem, selectCartItemById } from '../../reduxToolkit/slices/cartSlice';
 
 function PizzaBlock(props) {
   const { id, title, price, imageUrl, types, sizes } = props;
   const dispatch = useDispatch();
-  const cartItem = useSelector((state) => state.cart.items.find((obj) => obj.id === id));
+  const cartItem = useSelector(selectCartItemById(id));
   const addedCount = cartItem?.count || 0;
   const availableTypes = ['тонкое', 'традиционное'];
   const availableSizes = [26, 30, 40];

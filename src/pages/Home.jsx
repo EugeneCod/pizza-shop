@@ -1,14 +1,12 @@
-import { useState, useEffect, useContext, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import qs from 'qs';
 
 import { Categories, PizzaBlock, SortPopup, Skeleton, Pagination } from '../components';
 import { sortItems } from '../components/SortPopup';
-import { setCategoryId, setCurrentPage, setFilters } from '../reduxToolkit/slices/filterSlice';
-import { setPizzas } from '../reduxToolkit/slices/pizzasSlice';
-import { AppContext } from '../context';
+import { selectFilter, setCategoryId, setCurrentPage, setFilters } from '../reduxToolkit/slices/filterSlice';
+import { fetchPizzas, selectPizzasData } from '../reduxToolkit/slices/pizzasSlice';
 
 const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
 
@@ -18,10 +16,8 @@ function Home() {
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
-  const [isLoading, setIsLoading] = useState(false);
-  const { searchValue } = useContext(AppContext);
-  const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
-  const pizzas = useSelector(({ pizzas }) => pizzas.items);
+  const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
+  const { items, status } = useSelector(selectPizzasData);
   
 
   const handleSelectCategory = (index) => {
@@ -33,24 +29,20 @@ function Home() {
     dispatch(setCurrentPage(pageNumber));
   };
 
-  const fetchPizzas = () => {
+  const getPizzas = async () => {
     const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
     const sortBy = sort.sortProperty.replace('-', '');
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     // Mokapi может предоставить некорректные данные при использовании поиска совмещенного с сортировкой.
     // Приоритет отдается сортировке, поэтому могут быть получены данные, не соответствующие строке, введенной в форму поиска.
     const search = searchValue ? `&search=${searchValue}` : '';
-
-    setIsLoading(true);
-    axios
-      .get(
-        `https://63b939b56f4d5660c6e81059.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
-      )
-      .then(({ data }) => {
-        dispatch(setPizzas(data));
-      })
-      .catch((error) => console.log(error))
-      .finally(() => setIsLoading(false));
+    dispatch(fetchPizzas({
+      order,
+      sortBy,
+      category,
+      search,
+      currentPage,
+    }));
   };
 
   // поиск по локальному массиву
@@ -85,13 +77,13 @@ function Home() {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (!isSearch.current || isMounted.current) {
-      fetchPizzas();
+      getPizzas();
     }
 
     isSearch.current = false;
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  const renderedPizzas = pizzas && pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
+  const renderedPizzas = items && items.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
   const skeletons = [...new Array(9)].map((_, index) => <Skeleton key={index} />);
 
   return (
@@ -104,8 +96,17 @@ function Home() {
         />
         <SortPopup />
       </div>
-      <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{isLoading ? skeletons : renderedPizzas}</div>
+      {
+        status === 'error' 
+          ? (<div className="content__error-container">
+            <h2 className="content__error-title">Данные с удаленного сервера не были получены 😕</h2>
+            <p className="content__error-description">Приносим искренние извинения. Мы делаем всё возможное, чтобы как можно скорее возобновить работу.</p>
+          </div>)
+          : <>
+            <h2 className="content__title">Все пиццы</h2>
+            <div className="content__items">{status === 'loading' ? skeletons : renderedPizzas}</div>
+          </>
+      }
       <Pagination currentPage={currentPage} onPageChange={handleSwitchPagination} />
     </div>
   );

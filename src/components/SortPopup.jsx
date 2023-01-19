@@ -1,7 +1,7 @@
 import { memo, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setSort } from '../reduxToolkit/slices/filterSlice';
+import { selectFilterSort, setSort } from '../reduxToolkit/slices/filterSlice';
 
 export const sortItems = [
   { name: 'популярности (убыв.)', sortProperty: 'rating' },
@@ -14,7 +14,7 @@ export const sortItems = [
 
 const SortPopup = memo(function SortPopup(props) {
   const dispatch = useDispatch();
-  const selectedSorting = useSelector(({ filter }) => filter.sort);
+  const selectedSorting = useSelector(selectFilterSort);
   const [visiblePopup, setVisiblePopup] = useState(false);
   const sortRef = useRef();
 
