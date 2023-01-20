@@ -1,11 +1,16 @@
 import { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import qs from 'qs';
 
 import { Categories, PizzaBlock, SortPopup, Skeleton, Pagination } from '../components';
 import { sortItems } from '../components/SortPopup';
-import { selectFilter, setCategoryId, setCurrentPage, setFilters } from '../reduxToolkit/slices/filterSlice';
+import {
+  selectFilter,
+  setCategoryId,
+  setCurrentPage,
+  setFilters,
+} from '../reduxToolkit/slices/filterSlice';
 import { fetchPizzas, selectPizzasData } from '../reduxToolkit/slices/pizzasSlice';
 
 const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
@@ -18,7 +23,6 @@ function Home() {
 
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
   const { items, status } = useSelector(selectPizzasData);
-  
 
   const handleSelectCategory = (index) => {
     dispatch(setCategoryId(index));
@@ -36,13 +40,15 @@ function Home() {
     // Mokapi может предоставить некорректные данные при использовании поиска совмещенного с сортировкой.
     // Приоритет отдается сортировке, поэтому могут быть получены данные, не соответствующие строке, введенной в форму поиска.
     const search = searchValue ? `&search=${searchValue}` : '';
-    dispatch(fetchPizzas({
-      order,
-      sortBy,
-      category,
-      search,
-      currentPage,
-    }));
+    dispatch(
+      fetchPizzas({
+        order,
+        sortBy,
+        category,
+        search,
+        currentPage,
+      }),
+    );
   };
 
   // поиск по локальному массиву
@@ -83,7 +89,11 @@ function Home() {
     isSearch.current = false;
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  const renderedPizzas = items && items.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
+  const renderedPizzas =
+    items &&
+    items.map((pizza) => (
+      <PizzaBlock key={pizza.id} {...pizza} />
+    ));
   const skeletons = [...new Array(9)].map((_, index) => <Skeleton key={index} />);
 
   return (
@@ -96,17 +106,20 @@ function Home() {
         />
         <SortPopup />
       </div>
-      {
-        status === 'error' 
-          ? (<div className="content__error-container">
-            <h2 className="content__error-title">Данные с удаленного сервера не были получены 😕</h2>
-            <p className="content__error-description">Приносим искренние извинения. Мы делаем всё возможное, чтобы как можно скорее возобновить работу.</p>
-          </div>)
-          : <>
-            <h2 className="content__title">Все пиццы</h2>
-            <div className="content__items">{status === 'loading' ? skeletons : renderedPizzas}</div>
-          </>
-      }
+      {status === 'error' ? (
+        <div className="content__error-container">
+          <h2 className="content__error-title">Данные с удаленного сервера не были получены 😕</h2>
+          <p className="content__error-description">
+            Приносим искренние извинения. Мы делаем всё возможное, чтобы как можно скорее
+            возобновить работу.
+          </p>
+        </div>
+      ) : (
+        <>
+          <h2 className="content__title">Все пиццы</h2>
+          <div className="content__items">{status === 'loading' ? skeletons : renderedPizzas}</div>
+        </>
+      )}
       <Pagination currentPage={currentPage} onPageChange={handleSwitchPagination} />
     </div>
   );
