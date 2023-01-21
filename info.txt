@@ -8,3 +8,5 @@ reducer - общая функция, которая отвечает за изм
 action - метод по изменению стейта. Содержится в slice.actions. Actions - объект
 
 Внедрение TypeScript
+npm install --save typescript @types/node @types/react @types/react-dom @types/jest
+npm install --save @types/sass
