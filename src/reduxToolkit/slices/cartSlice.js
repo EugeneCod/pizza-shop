@@ -33,7 +33,7 @@ const cartSlice = createSlice({
       findItem && findItem.count--;
       recalculatePrice(state);
     },
-    clearItems(state, action) {
+    clearItems(state) {
       state.items = [];
       state.totalPrice = 0;
     },

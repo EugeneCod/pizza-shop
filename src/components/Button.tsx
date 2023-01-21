@@ -1,7 +1,14 @@
+import { FC, ReactElement  } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
-function Button({ children, outline, onClick }) {
+type ButtonProps = {
+  children: ReactElement;
+  outline: boolean, 
+  onClick: any;
+}
+
+const Button: FC<ButtonProps> = (props) => {
+  const { children, outline, onClick } = props;
   return (
     <button
       className={classNames('button', {
@@ -12,9 +19,5 @@ function Button({ children, outline, onClick }) {
     </button>
   );
 }
-
-Button.propTypes = {
-  onClick: PropTypes.func,
-};
 
 export default Button;

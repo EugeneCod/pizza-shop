@@ -3,7 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { selectFilterSort, setSort } from '../reduxToolkit/slices/filterSlice';
 
-export const sortItems = [
+type SortItem = {
+  name: string;
+  sortProperty: string;
+}
+
+export const sortItems: SortItem[] = [
   { name: 'популярности (убыв.)', sortProperty: 'rating' },
   { name: 'популярности (возр.)', sortProperty: '-rating' },
   { name: 'цене (убыв.)', sortProperty: 'price' },
@@ -12,11 +17,11 @@ export const sortItems = [
   { name: 'алфавиту (возр.)', sortProperty: '-title' },
 ];
 
-const SortPopup = memo(function SortPopup(props) {
+const SortPopup = memo(function SortPopup() {
   const dispatch = useDispatch();
   const selectedSorting = useSelector(selectFilterSort);
   const [visiblePopup, setVisiblePopup] = useState(false);
-  const sortRef = useRef();
+  const sortRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.body.addEventListener('click', handleOutsideCLick);
@@ -29,14 +34,13 @@ const SortPopup = memo(function SortPopup(props) {
     setVisiblePopup(!visiblePopup);
   }
 
-  function handleOutsideCLick(evt) {
+  function handleOutsideCLick(evt: any) {
     if (!evt.path.includes(sortRef.current)) {
       setVisiblePopup(false);
     }
   }
 
-  const handleSelectSorting = (selectedSort) => {
-    console.log('click@');
+  const handleSelectSorting = (selectedSort: SortItem) => {
     setVisiblePopup(false);
     dispatch(setSort(selectedSort))
   };
@@ -67,7 +71,7 @@ const SortPopup = memo(function SortPopup(props) {
                 <li
                   className={selectedSorting.sortProperty  === obj.sortProperty ? 'active' : ''}
                   onClick={() => handleSelectSorting(obj)}
-                  key={`${obj.type}_${index}`}>
+                  key={`${obj.sortProperty}_${index}`}>
                   {obj.name}
                 </li>
               ))}

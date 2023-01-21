@@ -1,8 +1,7 @@
-import React from 'react'
-
+import { FC } from 'react';
 import styles from './NotFoundBlock.module.scss';
 
-function NotFoundBlock() {
+const NotFoundBlock: FC = () => {
   return (
     <div className={styles.root}>
       <h1 className={styles.errorCode}>404</h1>

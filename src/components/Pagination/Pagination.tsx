@@ -1,9 +1,14 @@
-import React from 'react';
+import { FC } from 'react';
 import ReactPaginate from 'react-paginate';
 
 import styles from './Pagination.module.scss';
 
-function Pagination({ onPageChange, currentPage }) {
+type PaginationProps = {
+  onPageChange: any;
+  currentPage: number;
+}
+
+const Pagination: FC<PaginationProps> = ({ onPageChange, currentPage }) => {
   return (
     <ReactPaginate
       className={styles.root}
@@ -18,7 +23,6 @@ function Pagination({ onPageChange, currentPage }) {
       // из-за того, что mokapi не возвращает число потенциальных страниц, использован хардкод числа страниц
       pageCount={3}
       forcePage={currentPage - 1}
-      renderOnZeroPageCount={null}
     />
   );
 }

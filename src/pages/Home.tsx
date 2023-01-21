@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { FC, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import qs from 'qs';
 
@@ -13,9 +13,7 @@ import {
 } from '../reduxToolkit/slices/filterSlice';
 import { fetchPizzas, selectPizzasData } from '../reduxToolkit/slices/pizzasSlice';
 
-const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
-
-function Home() {
+const Home: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isSearch = useRef(false);
@@ -24,12 +22,11 @@ function Home() {
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
   const { items, status } = useSelector(selectPizzasData);
 
-  const handleSelectCategory = (index) => {
+  const handleSelectCategory = (index: number) => {
     dispatch(setCategoryId(index));
   };
 
-  const handleSwitchPagination = (pageNumber) => {
-    console.log(pageNumber);
+  const handleSwitchPagination = (pageNumber: number) => {
     dispatch(setCurrentPage(pageNumber));
   };
 
@@ -41,6 +38,7 @@ function Home() {
     // Приоритет отдается сортировке, поэтому могут быть получены данные, не соответствующие строке, введенной в форму поиска.
     const search = searchValue ? `&search=${searchValue}` : '';
     dispatch(
+      // @ts-ignore
       fetchPizzas({
         order,
         sortBy,
@@ -91,7 +89,7 @@ function Home() {
 
   const renderedPizzas =
     items &&
-    items.map((pizza) => (
+    items.map((pizza: any) => (
       <PizzaBlock key={pizza.id} {...pizza} />
     ));
   const skeletons = [...new Array(9)].map((_, index) => <Skeleton key={index} />);
@@ -101,7 +99,6 @@ function Home() {
       <div className="content__top">
         <Categories
           onClickItem={handleSelectCategory}
-          items={categories}
           selectedItem={categoryId}
         />
         <SortPopup />

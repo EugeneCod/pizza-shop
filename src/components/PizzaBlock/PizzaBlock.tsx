@@ -1,12 +1,20 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
 import { addItem, selectCartItemById } from '../../reduxToolkit/slices/cartSlice';
 
-function PizzaBlock(props) {
+type PizzaBlockProps = {
+  id: string;
+  title: string; 
+  price: number;
+  imageUrl: string;
+  types: number[];
+  sizes: number[];
+}
+
+const PizzaBlock: FC<PizzaBlockProps> = (props) => {
   const { id, title, price, imageUrl, types, sizes } = props;
   const dispatch = useDispatch();
   const cartItem = useSelector(selectCartItemById(id));
@@ -16,18 +24,16 @@ function PizzaBlock(props) {
 
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(sizes[0]);
-  // const [pizzasCount, setPizzasCount] = useState(0);
 
-  function handleSelectType(index) {
+  function handleSelectType(index: number) {
     setActiveType(index);
   }
 
-  function handleSelectSize(size) {
+  function handleSelectSize(size: number) {
     setActiveSize(size);
   }
 
   function handleAddClickButton() {
-    // setPizzasCount((prev) => (prev += 1));
     const item = {
       id,
       title,
@@ -95,22 +101,5 @@ function PizzaBlock(props) {
     </div>
   );
 }
-
-PizzaBlock.propTypes = {
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number,
-  imageUrl: PropTypes.string,
-  types: PropTypes.arrayOf(PropTypes.number),
-  sizes: PropTypes.arrayOf(PropTypes.number),
-};
-
-// Определение значений пропсов по-умолчанию
-PizzaBlock.defaultProps = {
-  name: '---',
-  price: 0,
-  imageUrl: 'ссылка по-умолчанию',
-  types: [],
-  sizes: [],
-};
 
 export default PizzaBlock;
