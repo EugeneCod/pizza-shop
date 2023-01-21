@@ -6,7 +6,7 @@ import { selectFilterSort, setSort } from '../reduxToolkit/slices/filterSlice';
 type SortItem = {
   name: string;
   sortProperty: string;
-}
+};
 
 export const sortItems: SortItem[] = [
   { name: 'популярности (убыв.)', sortProperty: 'rating' },
@@ -24,6 +24,12 @@ const SortPopup = memo(function SortPopup() {
   const sortRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const handleOutsideCLick = (event: any): void => {
+  
+      if (sortRef.current && !event.path.includes(sortRef.current)) {
+        setVisiblePopup(false);
+      }
+    }
     document.body.addEventListener('click', handleOutsideCLick);
     return () => {
       document.body.removeEventListener('click', handleOutsideCLick);
@@ -34,15 +40,11 @@ const SortPopup = memo(function SortPopup() {
     setVisiblePopup(!visiblePopup);
   }
 
-  function handleOutsideCLick(evt: any) {
-    if (!evt.path.includes(sortRef.current)) {
-      setVisiblePopup(false);
-    }
-  }
+  
 
   const handleSelectSorting = (selectedSort: SortItem) => {
     setVisiblePopup(false);
-    dispatch(setSort(selectedSort))
+    dispatch(setSort(selectedSort));
   };
 
   return (
@@ -69,7 +71,7 @@ const SortPopup = memo(function SortPopup() {
             {sortItems &&
               sortItems.map((obj, index) => (
                 <li
-                  className={selectedSorting.sortProperty  === obj.sortProperty ? 'active' : ''}
+                  className={selectedSorting.sortProperty === obj.sortProperty ? 'active' : ''}
                   onClick={() => handleSelectSorting(obj)}
                   key={`${obj.sortProperty}_${index}`}>
                   {obj.name}

@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 type CategoriesProps = {
   selectedItem: number;
-  onClickItem: any;
+  onClickItem: (index: number) => void;
 }
 
 const Categories: FC<CategoriesProps> = (props) => {
