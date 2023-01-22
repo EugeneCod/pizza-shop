@@ -1,39 +1,6 @@
 import axios from 'axios';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../store';
-
-// enum специальный аналог объекта в TS для применения в типах
-export enum Status {
-  LOADING = 'loading',
-  SUCCESS = 'success',
-  ERROR = 'error',
-}
-
-export type SearchPizzaParams = {
-  order: string;
-  sortBy: string; 
-  category: string;
-  search: string;
-  currentPage: string;
-}
-
-// Если в объекте типа все свойства и значения одного типа,
-// то можно исрользовать Record
-// type Args = Record<string, string>;
-
-type Pizza = {
-  id: string;
-  title: string; 
-  price: number;
-  imageUrl: string;
-  types: number[];
-  sizes: number[];
-}
-
-interface PizzaSliseState {
-  items: Pizza[],
-  status: Status,
-}
+import { Pizza, SearchPizzaParams, PizzaSliseState, Status } from './types';
 
 export const fetchPizzas = createAsyncThunk<Pizza[], SearchPizzaParams>('pizzas/fetchPizzasStatus', async (params) => {
   const { order, sortBy, category, search, currentPage } = params;
@@ -73,8 +40,6 @@ const pizzasSlice = createSlice({
       });
   },
 });
-
-export const selectPizzasData = (state: RootState) => state.pizzas;
 
 export default pizzasSlice.reducer;
 export const { setPizzas } = pizzasSlice.actions;

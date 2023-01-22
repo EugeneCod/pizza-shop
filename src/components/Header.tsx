@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 import logoSvg from '../assets/img/pizza-logo.svg';
 import { Search } from '.';
-import { selectCart } from '../reduxToolkit/slices/cartSlice';
+import { selectCart } from '../reduxToolkit/slices/cart/selectors';
 
 const Header: FC = () => {
   const { pathname } = useLocation();

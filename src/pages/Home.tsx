@@ -5,13 +5,12 @@ import qs from 'qs';
 
 import { Categories, PizzaBlock, SortPopup, Skeleton, Pagination } from '../components';
 import { sortItems } from '../components/SortPopup';
-import {
-  selectFilter,
-  setCategoryId,
-  setCurrentPage,
-  setFilters,
-} from '../reduxToolkit/slices/filterSlice';
-import { fetchPizzas, SearchPizzaParams, selectPizzasData } from '../reduxToolkit/slices/pizzasSlice';
+import { setCategoryId, setCurrentPage, setFilters } from '../reduxToolkit/slices/filter/slice';
+import { selectFilter } from '../reduxToolkit/slices/filter/selectors';
+import { fetchPizzas } from '../reduxToolkit/slices/pizzas/slice';
+import { selectPizzasData } from '../reduxToolkit/slices/pizzas/selectors';
+import { SearchPizzaParams } from '../reduxToolkit/slices/pizzas/types';
+
 import { useAppDispatch } from '../reduxToolkit/store';
 
 const Home: FC = () => {
@@ -19,13 +18,13 @@ const Home: FC = () => {
   const navigate = useNavigate();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
-  
+
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
   const { items, status } = useSelector(selectPizzasData);
 
   const handleSelectCategory = useCallback((index: number) => {
     dispatch(setCategoryId(index));
-  }, []) 
+  }, []);
 
   const handleSwitchPagination = (pageNumber: number) => {
     dispatch(setCurrentPage(pageNumber));
@@ -38,7 +37,6 @@ const Home: FC = () => {
     // Mokapi может предоставить некорректные данные при использовании поиска совмещенного с сортировкой.
     // Приоритет отдается сортировке, поэтому могут быть получены данные, не соответствующие строке, введенной в форму поиска.
     const search = searchValue ? `&search=${searchValue}` : '';
-
 
     dispatch(
       fetchPizzas({
@@ -61,7 +59,7 @@ const Home: FC = () => {
   useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1)) as unknown as SearchPizzaParams;
-      
+
       const { sortBy, category, search, currentPage } = params;
       const sort = sortItems.find((obj) => obj.sortProperty === sortBy);
       const filterData = {
@@ -69,7 +67,7 @@ const Home: FC = () => {
         categoryId: Number(category),
         currentPage: Number(currentPage),
         sort: sort || sortItems[0],
-      }
+      };
       sort && dispatch(setFilters(filterData));
       isSearch.current = true;
     }
@@ -98,19 +96,13 @@ const Home: FC = () => {
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
   const renderedPizzas =
-    items &&
-    items.map((pizza: any) => (
-      <PizzaBlock key={pizza.id} {...pizza} />
-    ));
+    items && items.map((pizza: any) => <PizzaBlock key={pizza.id} {...pizza} />);
   const skeletons = [...new Array(9)].map((_, index) => <Skeleton key={index} />);
 
   return (
     <div className="container">
       <div className="content__top">
-        <Categories
-          onClickItem={handleSelectCategory}
-          selectedItem={categoryId}
-        />
+        <Categories onClickItem={handleSelectCategory} selectedItem={categoryId} />
         <SortPopup selectedSort={sort} />
       </div>
       {status === 'error' ? (
@@ -130,7 +122,7 @@ const Home: FC = () => {
       <Pagination currentPage={currentPage} onPageChange={handleSwitchPagination} />
     </div>
   );
-}
+};
 
 export default Home;
 // сортировка по числовому значению категории от большей к меньшей (asc - наоборот)

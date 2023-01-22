@@ -1,8 +1,8 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import filtersReducer from './slices/filterSlice';
-import pizzasReducer from './slices/pizzasSlice';
-import cartReducer from './slices/cartSlice';
+import filtersReducer from './slices/filter/slice';
+import pizzasReducer from './slices/pizzas/slice';
+import cartReducer from './slices/cart/slice';
 import { useDispatch } from 'react-redux';
 
 const rootReducer = combineReducers({

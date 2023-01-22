@@ -1,7 +1,8 @@
 import { FC, memo, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { setSort, Sort, SortPropertyes } from '../reduxToolkit/slices/filterSlice';
+import { setSort } from '../reduxToolkit/slices/filter/slice';
+import {  Sort, SortPropertyes } from '../reduxToolkit/slices/filter/types';
 
 type SortPopupProps = {
   selectedSort: Sort;
