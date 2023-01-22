@@ -1,20 +1,20 @@
 import { memo, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectFilterSort, setSort } from '../reduxToolkit/slices/filterSlice';
+import { selectFilterSort, setSort, Sort, SortPropertyes } from '../reduxToolkit/slices/filterSlice';
 
-type SortItem = {
-  name: string;
-  sortProperty: string;
-};
+// type SortItem = {
+//   name: string;
+//   sortProperty: string;
+// };
 
-export const sortItems: SortItem[] = [
-  { name: 'популярности (убыв.)', sortProperty: 'rating' },
-  { name: 'популярности (возр.)', sortProperty: '-rating' },
-  { name: 'цене (убыв.)', sortProperty: 'price' },
-  { name: 'цене (возр.)', sortProperty: '-price' },
-  { name: 'алфавиту (убыв.)', sortProperty: 'title' },
-  { name: 'алфавиту (возр.)', sortProperty: '-title' },
+export const sortItems: Sort[] = [
+  { name: 'популярности (убыв.)', sortProperty: SortPropertyes.RATING_DESC },
+  { name: 'популярности (возр.)', sortProperty: SortPropertyes.RATING_ASC },
+  { name: 'цене (убыв.)', sortProperty: SortPropertyes.PRICE_DESC },
+  { name: 'цене (возр.)', sortProperty: SortPropertyes.PRICE_ASC },
+  { name: 'алфавиту (убыв.)', sortProperty: SortPropertyes.TITLE_DESC },
+  { name: 'алфавиту (возр.)', sortProperty: SortPropertyes.TITLE_ASC },
 ];
 
 const SortPopup = memo(function SortPopup() {
@@ -42,7 +42,7 @@ const SortPopup = memo(function SortPopup() {
 
   
 
-  const handleSelectSorting = (selectedSort: SortItem) => {
+  const handleSelectSorting = (selectedSort: Sort) => {
     setVisiblePopup(false);
     dispatch(setSort(selectedSort));
   };

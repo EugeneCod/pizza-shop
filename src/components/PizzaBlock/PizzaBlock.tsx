@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
-import { addItem, selectCartItemById } from '../../reduxToolkit/slices/cartSlice';
+import { addItem, CartItem, selectCartItemById } from '../../reduxToolkit/slices/cartSlice';
 
 type PizzaBlockProps = {
   id: string;
@@ -34,7 +34,7 @@ const PizzaBlock: FC<PizzaBlockProps> = (props) => {
   }
 
   function handleAddClickButton() {
-    const item = {
+    const item: CartItem = {
       id,
       title,
       price,
