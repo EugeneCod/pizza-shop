@@ -1,12 +1,11 @@
-import { memo, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { FC, memo, useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { selectFilterSort, setSort, Sort, SortPropertyes } from '../reduxToolkit/slices/filterSlice';
+import { setSort, Sort, SortPropertyes } from '../reduxToolkit/slices/filterSlice';
 
-// type SortItem = {
-//   name: string;
-//   sortProperty: string;
-// };
+type SortPopupProps = {
+  selectedSort: Sort;
+}
 
 export const sortItems: Sort[] = [
   { name: 'популярности (убыв.)', sortProperty: SortPropertyes.RATING_DESC },
@@ -17,9 +16,9 @@ export const sortItems: Sort[] = [
   { name: 'алфавиту (возр.)', sortProperty: SortPropertyes.TITLE_ASC },
 ];
 
-const SortPopup = memo(function SortPopup() {
+const SortPopup: FC<SortPopupProps> = memo((props) => {
+  const { selectedSort } = props;
   const dispatch = useDispatch();
-  const selectedSorting = useSelector(selectFilterSort);
   const [visiblePopup, setVisiblePopup] = useState(false);
   const sortRef = useRef<HTMLDivElement>(null);
 
@@ -63,7 +62,7 @@ const SortPopup = memo(function SortPopup() {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={toggleVisiblePopup}>{selectedSorting.name}</span>
+        <span onClick={toggleVisiblePopup}>{selectedSort.name}</span>
       </div>
       {visiblePopup && (
         <div className="sort__popup">
@@ -71,7 +70,7 @@ const SortPopup = memo(function SortPopup() {
             {sortItems &&
               sortItems.map((obj, index) => (
                 <li
-                  className={selectedSorting.sortProperty === obj.sortProperty ? 'active' : ''}
+                  className={selectedSort.sortProperty === obj.sortProperty ? 'active' : ''}
                   onClick={() => handleSelectSorting(obj)}
                   key={`${obj.sortProperty}_${index}`}>
                   {obj.name}

@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import qs from 'qs';
@@ -23,9 +23,9 @@ const Home: FC = () => {
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
   const { items, status } = useSelector(selectPizzasData);
 
-  const handleSelectCategory = (index: number) => {
+  const handleSelectCategory = useCallback((index: number) => {
     dispatch(setCategoryId(index));
-  };
+  }, []) 
 
   const handleSwitchPagination = (pageNumber: number) => {
     dispatch(setCurrentPage(pageNumber));
@@ -60,10 +60,7 @@ const Home: FC = () => {
   // Если был первый рендер, то проверяются URL-параметры и сохраняются в redux
   useEffect(() => {
     if (window.location.search) {
-      console.log(window.location.search);
-      
       const params = qs.parse(window.location.search.substring(1)) as unknown as SearchPizzaParams;
-      console.log(params);
       
       const { sortBy, category, search, currentPage } = params;
       const sort = sortItems.find((obj) => obj.sortProperty === sortBy);
@@ -114,7 +111,7 @@ const Home: FC = () => {
           onClickItem={handleSelectCategory}
           selectedItem={categoryId}
         />
-        <SortPopup />
+        <SortPopup selectedSort={sort} />
       </div>
       {status === 'error' ? (
         <div className="content__error-container">
