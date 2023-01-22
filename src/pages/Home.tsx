@@ -5,11 +5,11 @@ import qs from 'qs';
 
 import { Categories, PizzaBlock, SortPopup, Skeleton, Pagination } from '../components';
 import { sortItems } from '../components/SortPopup';
-import { setCategoryId, setCurrentPage, setFilters } from '../reduxToolkit/slices/filter/slice';
-import { selectFilter } from '../reduxToolkit/slices/filter/selectors';
-import { fetchPizzas } from '../reduxToolkit/slices/pizzas/slice';
-import { selectPizzasData } from '../reduxToolkit/slices/pizzas/selectors';
-import { SearchPizzaParams } from '../reduxToolkit/slices/pizzas/types';
+import { setCategoryId, setCurrentPage, setFilters } from '../reduxToolkit/filter/slice';
+import { selectFilter } from '../reduxToolkit/filter/selectors';
+import { fetchPizzas } from '../reduxToolkit/pizzas/asyncActions';
+import { selectPizzasData } from '../reduxToolkit/pizzas/selectors';
+import { SearchPizzaParams } from '../reduxToolkit/pizzas/types';
 
 import { useAppDispatch } from '../reduxToolkit/store';
 

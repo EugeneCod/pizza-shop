@@ -3,18 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
-import { addItem } from '../../reduxToolkit/slices/cart/slice';
-import { CartItem } from '../../reduxToolkit/slices/cart/types';
-import { selectCartItemById } from '../../reduxToolkit/slices/cart/selectors';
+import { addItem } from '../../reduxToolkit/cart/slice';
+import { CartItem } from '../../reduxToolkit/cart/types';
+import { selectCartItemById } from '../../reduxToolkit/cart/selectors';
 
 type PizzaBlockProps = {
   id: string;
-  title: string; 
+  title: string;
   price: number;
   imageUrl: string;
   types: number[];
   sizes: number[];
-}
+};
 
 const PizzaBlock: FC<PizzaBlockProps> = (props) => {
   const { id, title, price, imageUrl, types, sizes } = props;
@@ -49,7 +49,9 @@ const PizzaBlock: FC<PizzaBlockProps> = (props) => {
 
   return (
     <div className="pizza-block">
-      <Link to={`pizza/${id}`}><img className="pizza-block__image" src={imageUrl} alt="Pizza" /></Link>
+      <Link to={`pizza/${id}`}>
+        <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+      </Link>
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
@@ -102,6 +104,6 @@ const PizzaBlock: FC<PizzaBlockProps> = (props) => {
       </div>
     </div>
   );
-}
+};
 
 export default PizzaBlock;

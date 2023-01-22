@@ -1,12 +1,12 @@
 import { FC, memo, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { setSort } from '../reduxToolkit/slices/filter/slice';
-import {  Sort, SortPropertyes } from '../reduxToolkit/slices/filter/types';
+import { setSort } from '../reduxToolkit/filter/slice';
+import { Sort, SortPropertyes } from '../reduxToolkit/filter/types';
 
 type SortPopupProps = {
   selectedSort: Sort;
-}
+};
 
 export const sortItems: Sort[] = [
   { name: 'популярности (убыв.)', sortProperty: SortPropertyes.RATING_DESC },
@@ -25,11 +25,10 @@ const SortPopup: FC<SortPopupProps> = memo((props) => {
 
   useEffect(() => {
     const handleOutsideCLick = (event: any): void => {
-  
       if (sortRef.current && !event.path.includes(sortRef.current)) {
         setVisiblePopup(false);
       }
-    }
+    };
     document.body.addEventListener('click', handleOutsideCLick);
     return () => {
       document.body.removeEventListener('click', handleOutsideCLick);
@@ -39,8 +38,6 @@ const SortPopup: FC<SortPopupProps> = memo((props) => {
   function toggleVisiblePopup() {
     setVisiblePopup(!visiblePopup);
   }
-
-  
 
   const handleSelectSorting = (selectedSort: Sort) => {
     setVisiblePopup(false);

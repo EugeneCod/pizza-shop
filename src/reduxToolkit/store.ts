@@ -1,8 +1,8 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import filtersReducer from './slices/filter/slice';
-import pizzasReducer from './slices/pizzas/slice';
-import cartReducer from './slices/cart/slice';
+import filtersReducer from './filter/slice';
+import pizzasReducer from './pizzas/slice';
+import cartReducer from './cart/slice';
 import { useDispatch } from 'react-redux';
 
 const rootReducer = combineReducers({
@@ -21,5 +21,5 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 
 // typeof store.getState возвращает все типы actions их хранилища
-export type AppDispatch = typeof store.dispatch
-export const useAppDispatch: () => AppDispatch = useDispatch 
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch: () => AppDispatch = useDispatch;

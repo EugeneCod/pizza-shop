@@ -1,5 +1,5 @@
-import { CartItem } from "../reduxToolkit/slices/cart/types";
-import calcTotalPrice from "./calcTotalPrice";
+import { CartItem } from '../reduxToolkit/cart/types';
+import calcTotalPrice from './calcTotalPrice';
 
 const getCartFromLS = () => {
   const cartItemsJson = localStorage.getItem('cartItems');
@@ -8,7 +8,7 @@ const getCartFromLS = () => {
   return {
     items,
     totalPrice,
-  }
-}
+  };
+};
 
 export default getCartFromLS;

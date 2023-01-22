@@ -3,14 +3,12 @@ import debounce from 'lodash.debounce';
 
 import styles from './Search.module.scss';
 import { useDispatch } from 'react-redux';
-import { setSearchValue } from '../../reduxToolkit/slices/filter/slice';
-
+import { setSearchValue } from '../../reduxToolkit/filter/slice';
 
 const Search: FC = () => {
   const dispatch = useDispatch();
-  const [ value, setValue ] = useState('');
+  const [value, setValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
-  
 
   const updateSearchValue = useCallback(
     debounce((string: string) => {
@@ -25,7 +23,7 @@ const Search: FC = () => {
   }
 
   function handleCLearInput() {
-    dispatch(setSearchValue(''))
+    dispatch(setSearchValue(''));
     setValue('');
     inputRef.current?.focus();
   }
@@ -51,7 +49,9 @@ const Search: FC = () => {
       </svg>
       {value && (
         <svg
-          onClick={() => {handleCLearInput()}}
+          onClick={() => {
+            handleCLearInput();
+          }}
           className={styles.clearIcon}
           fill="none"
           height="15"
@@ -71,6 +71,6 @@ const Search: FC = () => {
       />
     </div>
   );
-}
+};
 
 export default Search;

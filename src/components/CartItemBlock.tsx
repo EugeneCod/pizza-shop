@@ -1,17 +1,17 @@
 import { FC } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { CartItem } from '../reduxToolkit/slices/cart/types';
-import { addItem, minusItem, removeItem } from '../reduxToolkit/slices/cart/slice';
+import { CartItem } from '../reduxToolkit/cart/types';
+import { addItem, minusItem, removeItem } from '../reduxToolkit/cart/slice';
 
 type CartItemProps = {
   id: string;
-  title: string; 
-  type: string, 
-  size: number, 
-  price: number, 
-  count: number, 
-  imageUrl: string,
+  title: string;
+  type: string;
+  size: number;
+  price: number;
+  count: number;
+  imageUrl: string;
 };
 
 const CartItemBLock: FC<CartItemProps> = (props) => {
@@ -37,7 +37,9 @@ const CartItemBLock: FC<CartItemProps> = (props) => {
       </div>
       <div className="cart__item-info">
         <h3>{title}</h3>
-        <p>{type}, {size} см.</p>
+        <p>
+          {type}, {size} см.
+        </p>
       </div>
       <div className="cart__item-count">
         <button
@@ -104,6 +106,6 @@ const CartItemBLock: FC<CartItemProps> = (props) => {
       </div>
     </div>
   );
-}
+};
 
 export default CartItemBLock;

@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 import logoSvg from '../assets/img/pizza-logo.svg';
 import { Search } from '.';
-import { selectCart } from '../reduxToolkit/slices/cart/selectors';
+import { selectCart } from '../reduxToolkit/cart/selectors';
 
 const Header: FC = () => {
   const { pathname } = useLocation();
@@ -20,7 +20,7 @@ const Header: FC = () => {
       localStorage.setItem('cartItems', cartItemsJson);
     }
     isMounted.current = true;
-  }, [items])
+  }, [items]);
 
   return (
     <div className="header">
@@ -77,6 +77,6 @@ const Header: FC = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Header;
