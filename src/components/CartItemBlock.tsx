@@ -18,8 +18,6 @@ const CartItemBLock: FC<CartItemProps> = (props) => {
   const dispatch = useDispatch();
 
   const handleClickPlus = () => {
-    console.log(id);
-    
     dispatch(addItem({ id } as CartItem));
   };
 

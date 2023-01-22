@@ -94,7 +94,6 @@ const Cart: FC = () => {
         </div>
         <div className="cart__items">
           {items.map((item: any) => {
-            console.log(item);
             return (<CartItemBlock key={item.id} {...item} />
           )})}
         </div>

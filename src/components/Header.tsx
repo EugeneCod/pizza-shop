@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -9,7 +9,18 @@ import { selectCart } from '../reduxToolkit/slices/cartSlice';
 const Header: FC = () => {
   const { pathname } = useLocation();
   const { items, totalPrice } = useSelector(selectCart);
+  const isMounted = useRef(false);
   const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
+
+  useEffect(() => {
+    // чтобы при первом рендере хранилище не переписывалось
+    // нужно выполнять проверку
+    if (isMounted.current) {
+      const cartItemsJson = JSON.stringify(items);
+      localStorage.setItem('cartItems', cartItemsJson);
+    }
+    isMounted.current = true;
+  }, [items])
 
   return (
     <div className="header">
