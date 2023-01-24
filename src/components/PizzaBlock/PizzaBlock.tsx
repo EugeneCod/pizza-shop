@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { addItem } from '../../reduxToolkit/cart/slice';
 import { CartItem } from '../../reduxToolkit/cart/types';
 import { selectCartItemById } from '../../reduxToolkit/cart/selectors';
+import { PIZZAOPTIONS } from '../../utils/constants';
 
 type PizzaBlockProps = {
   id: string;
@@ -21,8 +22,7 @@ const PizzaBlock: FC<PizzaBlockProps> = (props) => {
   const dispatch = useDispatch();
   const cartItem = useSelector(selectCartItemById(id));
   const addedCount = cartItem?.count || 0;
-  const availableTypes = ['тонкое', 'традиционное'];
-  const availableSizes = [26, 30, 40];
+  const {TYPES, SIZES} = PIZZAOPTIONS;
 
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(sizes[0]);
@@ -35,13 +35,13 @@ const PizzaBlock: FC<PizzaBlockProps> = (props) => {
     setActiveSize(size);
   }
 
-  function handleAddClickButton() {
+  function handleAddPizza() {
     const item: CartItem = {
       id,
       title,
       price,
       imageUrl,
-      type: availableTypes[activeType],
+      type: TYPES[activeType],
       size: activeSize,
     };
     dispatch(addItem(item));
@@ -56,7 +56,7 @@ const PizzaBlock: FC<PizzaBlockProps> = (props) => {
       <div className="pizza-block__selector">
         <ul>
           {types &&
-            availableTypes.map((type, index) => (
+            TYPES.map((type, index) => (
               <li
                 className={classNames({
                   active: activeType === index,
@@ -70,7 +70,7 @@ const PizzaBlock: FC<PizzaBlockProps> = (props) => {
         </ul>
         <ul>
           {sizes &&
-            availableSizes.map((size, index) => (
+            SIZES.map((size, index) => (
               <li
                 className={classNames({
                   active: activeSize === size,
@@ -85,7 +85,7 @@ const PizzaBlock: FC<PizzaBlockProps> = (props) => {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <button onClick={handleAddClickButton} className="button button--outline button--add">
+        <button onClick={handleAddPizza} className="button button--outline button--add">
           <svg
             width="12"
             height="12"

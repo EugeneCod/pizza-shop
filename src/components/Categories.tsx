@@ -10,7 +10,7 @@ const Categories: FC<CategoriesProps> = memo((props) => {
   // useWhyDidYouUpdate('Categories', props)
   const { onClickItem, selectedItem } = props;
 
-  const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
+  const categories = ['Все', 'Мясные', 'Вегетарианские', 'Острые'];
 
   return (
     <div className="categories">

@@ -14,7 +14,8 @@ export type SearchPizzaParams = {
 
 export type Pizza = {
   id: string;
-  title: string; 
+  title: string;
+  description: string;
   price: number;
   imageUrl: string;
   types: number[];
