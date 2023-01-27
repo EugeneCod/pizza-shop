@@ -95,7 +95,7 @@ const Cart: FC = () => {
         </div>
         <div className="cart__items">
           {items.map((item: any) => {
-            return <CartItemBlock key={item.id} {...item} />;
+            return <CartItemBlock key={item.id + item.type + item.size} {...item} />;
           })}
         </div>
         <div className="cart__bottom">

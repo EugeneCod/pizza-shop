@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import { addItem } from '../../reduxToolkit/cart/slice';
 import { CartItem } from '../../reduxToolkit/cart/types';
-import { selectCartItemById } from '../../reduxToolkit/cart/selectors';
+import { selectCartItemsById } from '../../reduxToolkit/cart/selectors';
 import { PIZZAOPTIONS } from '../../utils/constants';
 
 type PizzaBlockProps = {
@@ -20,12 +20,26 @@ type PizzaBlockProps = {
 const PizzaBlock: FC<PizzaBlockProps> = (props) => {
   const { id, title, price, imageUrl, types, sizes } = props;
   const dispatch = useDispatch();
-  const cartItem = useSelector(selectCartItemById(id));
-  const addedCount = cartItem?.count || 0;
+  // const cartItem = useSelector(selectCartItemById(id));
+  const cartItems = useSelector(selectCartItemsById(id));
+  console.log(cartItems);
+  
+  // const addedCount = cartItem?.count || 0;
+  const addedCount = calcItemsCount(cartItems);
   const {TYPES, SIZES} = PIZZAOPTIONS;
 
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(sizes[0]);
+
+  function calcItemsCount(items: CartItem[]): number {
+    const count: number = items.reduce((sum, cartItem) => {
+      if (!cartItem.count) {
+        return sum
+      }
+      return sum + cartItem.count
+    }, 0)
+    return count || 0;
+  }
 
   function handleSelectType(index: number) {
     setActiveType(index);

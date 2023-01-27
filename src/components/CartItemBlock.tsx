@@ -19,15 +19,15 @@ const CartItemBLock: FC<CartItemProps> = (props) => {
   const dispatch = useDispatch();
 
   const handleClickPlus = () => {
-    dispatch(addItem({ id } as CartItem));
+    dispatch(addItem({ id, type, size } as CartItem));
   };
 
   const handleClickMinus = () => {
-    count === 1 ? handleClickRemove() : dispatch(minusItem(id));
+    count === 1 ? handleClickRemove() : dispatch(minusItem({ id, type, size } as CartItem));
   };
 
   const handleClickRemove = () => {
-    window.confirm('Вы действительно хотите удалить выбранный товар?') && dispatch(removeItem(id));
+    window.confirm('Вы действительно хотите удалить выбранный товар?') && dispatch(removeItem({ id, type, size } as CartItem));
   };
 
   return (
