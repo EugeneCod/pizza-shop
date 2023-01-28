@@ -22,7 +22,6 @@ const PizzaBlock: FC<PizzaBlockProps> = (props) => {
   const dispatch = useDispatch();
   // const cartItem = useSelector(selectCartItemById(id));
   const cartItems = useSelector(selectCartItemsById(id));
-  console.log(cartItems);
   
   // const addedCount = cartItem?.count || 0;
   const addedCount = calcItemsCount(cartItems);

@@ -1,3 +1,5 @@
+@import '../../scss/variables';
+
 .root {
   display: flex;
   justify-content: center;
@@ -17,10 +19,11 @@
     justify-content: center;
     cursor: pointer;
     transition: all 0.15s ease-in-out;
+    background-color: $light-items-bg;
 
     &:hover {
       background-color: #fe5f1e;
-      color: white;
+      color: $light-font;
     }
 
     &:active {
@@ -34,7 +37,7 @@
       background-color: #fe5f1e;
       transform: translateY(1px);
       pointer-events: none;
-      color: white;
+      color: $light-font;
     }
 
     .disabled > a {

@@ -9,7 +9,7 @@
 
 
     li {
-      background-color: #f9f9f9;
+      background-color: $light-items-bg;
       padding: 13px 30px;
       border-radius: 30px;
       margin-right: 10px;
@@ -28,7 +28,7 @@
 
       &.active {
         background-color: #282828;
-        color: #fff;
+        color: $light-font;
       }
     }
   }

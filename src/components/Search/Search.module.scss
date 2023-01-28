@@ -1,3 +1,5 @@
+@import '../../scss/variables';
+
 .root {
   position: relative;
 }
@@ -38,6 +40,7 @@
   border-radius: 12px;
   font-size: 15px;
   transition: border 0.2s ease;
+  background-color: $light-items-bg;
 
   &:focus {
     border: 1px solid rgba(0, 0, 0, 0.2);
