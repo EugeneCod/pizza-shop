@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/pizza-shop/static/css/main.6eeea1da.css",
+    "main.css": "/pizza-shop/static/css/main.8d6c950d.css",
     "main.js": "/pizza-shop/static/js/main.219c225b.js",
     "NotFoundPage.js": "/pizza-shop/static/js/NotFoundPage.e86f36c4.chunk.js",
     "FullPizzaPage.css": "/pizza-shop/static/css/FullPizzaPage.96626e60.chunk.css",
@@ -21,7 +21,7 @@
     "static/media/empty-cart.png": "/pizza-shop/static/media/empty-cart.db905d1f4b063162f25b.png",
     "static/media/pizza-logo.svg": "/pizza-shop/static/media/pizza-logo.56ac87032d8f6fdf863326acd06c0d97.svg",
     "index.html": "/pizza-shop/index.html",
-    "main.6eeea1da.css.map": "/pizza-shop/static/css/main.6eeea1da.css.map",
+    "main.8d6c950d.css.map": "/pizza-shop/static/css/main.8d6c950d.css.map",
     "main.219c225b.js.map": "/pizza-shop/static/js/main.219c225b.js.map",
     "NotFoundPage.e86f36c4.chunk.js.map": "/pizza-shop/static/js/NotFoundPage.e86f36c4.chunk.js.map",
     "FullPizzaPage.96626e60.chunk.css.map": "/pizza-shop/static/css/FullPizzaPage.96626e60.chunk.css.map",
@@ -29,7 +29,7 @@
     "CartPage.7359385c.chunk.js.map": "/pizza-shop/static/js/CartPage.7359385c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.6eeea1da.css",
+    "static/css/main.8d6c950d.css",
     "static/js/main.219c225b.js"
   ]
 }
