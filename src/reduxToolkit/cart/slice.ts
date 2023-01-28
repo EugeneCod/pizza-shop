@@ -23,6 +23,7 @@ const cartSlice = createSlice({
       );
       if (!findItem) {
         state.items.push({ ...action.payload, count: 1 });
+        state.totalPrice = calcTotalPrice(state.items);
         return;
       }
       const matchByType = findItem.type === action.payload.type;
