@@ -8,11 +8,11 @@
   li > a {
     font-size: 16px;
     font-weight: 700;
-    color: #fe5f1e;
+    color: $base;
     width: 40px;
     height: 40px;
     padding: 10px;
-    border: 1px solid #fe5f1e;
+    border: 1px solid $base;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -22,19 +22,18 @@
     background-color: $light-items-bg;
 
     &:hover {
-      background-color: #fe5f1e;
+      background-color: darken($base, 8%);
       color: $light-font;
     }
 
     &:active {
-      background-color: #f24701;
       transform: translateY(1px);
     }
   }
 
   :global {
     .selected > a {
-      background-color: #fe5f1e;
+      background-color: darken($base, 8%);
       transform: translateY(1px);
       pointer-events: none;
       color: $light-font;
