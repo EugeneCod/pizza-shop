@@ -1,0 +1,72 @@
+@import '../../scss/variables';
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dialogContainer {
+  z-index: 3;
+  padding: 16px;
+  background-color: $light-items-bg;
+  width: 400px;
+  border-radius: 5px;
+
+  @media (max-width: 500px) {
+    width: 270px;
+  }
+}
+
+.text {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.21;
+  text-align: center;
+
+  @media (max-width: 500px) {
+    font-size: 16px;
+  }
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top:20px;
+
+  @media (max-width: 500px) {
+    justify-content: space-evenly;
+  }
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  border: none;
+  width: 50px;
+  border-radius: 20px;
+  padding: 10px 35px;
+  margin: 0 10px;
+  color: $light-font;
+  background-color: $base;
+  cursor: pointer;
+  transition: all .2s ease;
+
+  &:hover {
+    background-color: darken($color: $base, $amount: 10%);
+  }
+  &:active {
+    transform: translateY(1px);
+  }
+}

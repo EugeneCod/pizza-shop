@@ -3,6 +3,7 @@ export { default as Button } from './Button';
 export { default as CartEmpty } from './CartEmpty';
 export { default as CartItemBlock } from './CartItemBlock';
 export { default as Categories } from './Categories';
+export { default as ConfirmModal } from './ConfirmModal/ConfirmModal';
 export { default as SortPopup } from './SortPopup';
 export { default as PizzaBlock } from './PizzaBlock/PizzaBlock';
 export { default as Skeleton } from './PizzaBlock/Skeleton';

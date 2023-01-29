@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 
 import { CartItem } from '../reduxToolkit/cart/types';
 import { addItem, minusItem, removeItem } from '../reduxToolkit/cart/slice';
+import useConfirm from '../hooks/useConfirm';
+import { CONFIRMTEXT } from '../utils/constants';
 
 type CartItemProps = {
   id: string;
@@ -17,6 +19,7 @@ type CartItemProps = {
 const CartItemBLock: FC<CartItemProps> = (props) => {
   const { id, title, type, size, price, count, imageUrl } = props;
   const dispatch = useDispatch();
+  const {confirm} = useConfirm();
 
   const handleClickPlus = () => {
     dispatch(addItem({ id, type, size } as CartItem));
@@ -26,8 +29,10 @@ const CartItemBLock: FC<CartItemProps> = (props) => {
     count === 1 ? handleClickRemove() : dispatch(minusItem({ id, type, size } as CartItem));
   };
 
-  const handleClickRemove = () => {
-    window.confirm('Вы действительно хотите удалить выбранный товар?') && dispatch(removeItem({ id, type, size } as CartItem));
+  const handleClickRemove = async () => {
+    const isConfirmed = await confirm(CONFIRMTEXT.REMOVECARTITEM);
+    isConfirmed && dispatch(removeItem({ id, type, size } as CartItem));
+    // window.confirm('Вы действительно хотите удалить выбранный товар?') && dispatch(removeItem({ id, type, size } as CartItem));
   };
 
   return (

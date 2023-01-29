@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import MainLayout from './layouts/MainLayout';
 import Home from './pages/Home';
+import { ConfirmModal } from './components';
 // При lazy loading страницы при помощи встроенной функции React.lazy нужный компоент оборачивается в <Suspense />
 // В <Suspense /> передается fallback(разметка, размещаемая до окончания загрузки страницы)
 // const Cart = lazy(() => import(/* webpackChunkName: 'CartPage' */'./pages/Cart'));
@@ -44,6 +45,7 @@ function App() {
           />
         </Route>
       </Routes>
+      <ConfirmModal />
     </div>
   );
 }

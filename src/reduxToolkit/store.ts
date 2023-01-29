@@ -3,12 +3,14 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import filtersReducer from './filter/slice';
 import pizzasReducer from './pizzas/slice';
 import cartReducer from './cart/slice';
+import confirmReducer from './confirm/slice';
 import { useDispatch } from 'react-redux';
 
 const rootReducer = combineReducers({
   filter: filtersReducer,
   pizzas: pizzasReducer,
   cart: cartReducer,
+  confirm: confirmReducer,
 });
 
 export const store = configureStore({

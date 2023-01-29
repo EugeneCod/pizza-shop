@@ -4,14 +4,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CartEmpty, CartItemBlock } from '../components';
 import { clearItems } from '../reduxToolkit/cart/slice';
 import { selectCart } from '../reduxToolkit/cart/selectors';
+import useConfirm from '../hooks/useConfirm';
+import { CONFIRMTEXT } from '../utils/constants';
 
 const Cart: FC = () => {
+  const {confirm} = useConfirm();
   const dispatch = useDispatch();
   const { totalPrice, items } = useSelector(selectCart);
   const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
 
-  const handleClickClear = () => {
-    window.confirm('Очистить корзину?') && dispatch(clearItems());
+  const handleClickClear = async () => {
+    const isConfirmed = await confirm(CONFIRMTEXT.CLEARCART);
+    isConfirmed && dispatch(clearItems());
+
+    // window.confirm('Очистить корзину?') && dispatch(clearItems());
   };
 
   if (!totalCount) {
